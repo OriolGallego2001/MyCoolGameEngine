@@ -8,12 +8,15 @@ x64/Release/
 *.exe
 *.out
 *.app
+*.pdb
+*.tlog
 
 # Build output
 /build/
 /bin/
 /Debug/
 /Release/
+/Engine/
 
 # IDE/Editor-specific files and folders
 .sln
