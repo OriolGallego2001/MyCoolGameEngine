@@ -3,6 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleOpenGL.h"
 #include "ModuleInput.h"
+#include "ModuleImGUI.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ Application::Application()
 	modules.push_back(window = new ModuleWindow());
 	modules.push_back(render = new ModuleOpenGL());
 	modules.push_back(input = new ModuleInput());
+	modules.push_back(imgui = new ModuleImGUI());
 }
 
 Application::~Application()
@@ -54,6 +56,11 @@ bool Application::CleanUp()
 
 	for(list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
 		ret = (*it)->CleanUp();
+
+	for (const char* message : logMessages) {
+		free(const_cast<void*>(static_cast<const void*>(message))); // Cast to void* before freeing
+	}
+	logMessages.clear(); // Clear the vector when appropriate
 
 	return ret;
 }
