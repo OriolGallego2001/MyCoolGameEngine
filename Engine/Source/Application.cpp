@@ -4,6 +4,7 @@
 #include "ModuleOpenGL.h"
 #include "ModuleInput.h"
 #include "ModuleImGUI.h"
+#include "ModuleRenderExercise.h"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ Application::Application()
 	modules.push_back(render = new ModuleOpenGL());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(imgui = new ModuleImGUI());
+	modules.push_back(r_ex = new ModuleRenderExercise());
 }
 
 Application::~Application()

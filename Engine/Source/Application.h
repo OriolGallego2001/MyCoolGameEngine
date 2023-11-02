@@ -10,6 +10,7 @@ class ModuleTextures;
 class ModuleInput;
 class ModuleRenderExercise;
 class ModuleImGUI;
+class ModuleRenderExercise;
 
 class Application
 {
@@ -26,12 +27,15 @@ public:
     ModuleWindow* GetWindow() { return window; }
     ModuleInput*  GetInput() { return input; }
     ModuleImGUI* GetImGUI() { return imgui; }
+    ModuleRenderExercise* GetRenderExercise() { return r_ex; }
+
 private:
 
     ModuleOpenGL* render = nullptr;
     ModuleWindow* window = nullptr;
     ModuleInput* input = nullptr;
     ModuleImGUI* imgui = nullptr;
+    ModuleRenderExercise* r_ex = nullptr;
 
     std::list<Module*> modules;
 
