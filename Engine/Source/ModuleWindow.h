@@ -21,6 +21,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	float getAspectRatio();
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window = NULL;

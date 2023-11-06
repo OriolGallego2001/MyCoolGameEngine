@@ -68,3 +68,10 @@ bool ModuleWindow::CleanUp()
 	return true;
 }
 
+float ModuleWindow::getAspectRatio()
+{
+	SDL_DisplayMode DM;
+	SDL_GetCurrentDisplayMode(0, &DM);
+	return (float)DM.w/(float)DM.h;
+}
+

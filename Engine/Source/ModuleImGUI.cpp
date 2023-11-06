@@ -67,8 +67,8 @@ update_status ModuleImGUI::Update()
 update_status ModuleImGUI::PostUpdate()
 {
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImGui::ShowDemoWindow();
-	renderAboutWindow();
+	//ImGui::ShowDemoWindow();
+	//renderAboutWindow();
 	renderLogWindow();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
