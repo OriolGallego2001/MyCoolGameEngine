@@ -23,30 +23,30 @@ Engine/Source/.vs/
 
 
 # IDE/Editor-specific files and folders
-.sln
-.vcxproj
-.suo
-.user
-.vscode/
-.xcodeproj
-.xcworkspace
+*.sln
+*.vcxproj
+*.suo
+*.user
+*.vscode/
+*.xcodeproj
+*.xcworkspace
 xcuserdata/
-.cbp
-.layout
-.depend
-.project
-.cproject
-.settings/
-.idea/
-.idea/*
-.idea/workspace.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
+*.cbp
+*.layout
+*.depend
+*.project
+*.cproject
+*.settings/
+*.idea/
+*.idea/*
+*.idea/workspace.xml
+*.idea/misc.xml
+*.idea/modules.xml
+*.idea/vcs.xml
 
 # Operating System and Editor Temporary Files
 Thumbs.db
-.DS_Store
+*.DS_Store
 
 # Dependency and Build Tools Files
 CMakeCache.txt
@@ -59,7 +59,7 @@ Makefile
 *.log
 
 # User/Environment-specific files
-.env
+*.env
 
 # Miscellaneous
 core
@@ -100,3 +100,4 @@ core.*
 *.app
 *.obj
 *.pdb
+*.db
