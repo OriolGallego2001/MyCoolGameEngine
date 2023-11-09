@@ -36,8 +36,8 @@ bool ModuleRenderExercise::Init()
 {
     this->triangleVBO = CreateTriangleVBO();
 
-    this->vertex_id = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("../Data/Shaders/hello_world.vs"));
-    this->fragment_id = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("../Data/Shaders/basic.fs"));
+    this->vertex_id = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("../Data/Shaders/basic.vs"));
+    this->fragment_id = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("../Data/Shaders/hello_world.fs"));
     this->program_id = CreateProgram(vertex_id, fragment_id);
     aspect = App->GetWindow()->getAspectRatio();
     frustum.type = FrustumType::PerspectiveFrustum;
@@ -193,6 +193,14 @@ void ModuleRenderExercise::RenderTriangle()
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo); // set vbo active
     glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glEnableVertexAttribArray(0);
+    // size = 3 float per vertex
+    // stride = 0 is equivalent to stride = sizeof(float)*3
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glUseProgram(program_id);
+    // 1 triangle to draw = 3 vertices
 
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }

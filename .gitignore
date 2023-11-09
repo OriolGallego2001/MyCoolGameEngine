@@ -1,6 +1,7 @@
 # Visual Studio Code files
 .vs/
-x64/Release/
+
+Engine/Source/x64/Release/
 
 # Compiled files
 *.o
@@ -10,12 +11,14 @@ x64/Release/
 *.app
 *.pdb
 *.tlog
+*.ini
 
 # Build output
 /build/
 /bin/
 /Debug/
 /Release/
+Engine/Source/.vs/
 
 
 
@@ -95,3 +98,5 @@ core.*
 *.exe
 *.out
 *.app
+*.obj
+*.pdb
