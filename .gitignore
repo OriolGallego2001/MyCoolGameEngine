@@ -101,3 +101,4 @@ core.*
 *.obj
 *.pdb
 *.db
+Engine/Source/.vs/Engine/v16/.suo
