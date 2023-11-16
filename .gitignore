@@ -23,7 +23,6 @@ Engine/Source/.vs/
 
 
 # IDE/Editor-specific files and folders
-*.sln
 *.vcxproj
 *.suo
 *.user
