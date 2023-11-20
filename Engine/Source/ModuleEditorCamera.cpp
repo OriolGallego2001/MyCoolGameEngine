@@ -10,8 +10,11 @@ ModuleEditorCamera::~ModuleEditorCamera()
 {
 }
 
-float4x4 LookAt(float3 from, float3 to, float3 up) {
+void ModuleEditorCamera::LookAt(float3 to) {
     float4x4 m;
+    float3 from = this->frustum.pos;
+    float3 up = this->frustum.up;
+
     float3 forward = from - to;
     forward.Normalize();
     float3 right = up.Cross(forward);
@@ -23,7 +26,10 @@ float4x4 LookAt(float3 from, float3 to, float3 up) {
     m[2][0] = forward.x, m[2][1] = forward.y, m[2][2] = forward.z;
     m[3][0] = from.x, m[3][1] = from.y, m[3][2] = from.z;
 
-    return m;
+    this->center = to;
+    this->ViewProjMatrix = m * frustum.ProjectionMatrix();
+    this->InvViewProjMatrix = this->ViewProjMatrix;
+    this->InvViewProjMatrix.Inverse();
 }
 
 
@@ -69,4 +75,21 @@ update_status ModuleEditorCamera::PostUpdate()
 bool ModuleEditorCamera::CleanUp()
 {
     return true;
+}
+
+void ModuleEditorCamera::move(float3 delta)
+{
+    frustum.pos = frustum.pos - delta;
+    frustum.pos = frustum.pos - delta;
+    LookAt(center - delta);
+    
+}
+
+void ModuleEditorCamera::rotate(float angle, const float3& axis)
+{
+    float4x4 R;
+    R.RotateAxisAngle(axis, angle);
+    float4 new_front4 = R * float4((center - frustum.pos),1);
+    float3 new_front = new_front4.xyz() / new_front4.w;
+    LookAt(frustum.pos + new_front);
 }
