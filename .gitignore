@@ -23,13 +23,6 @@ Engine/Source/.vs/
 Thumbs.db
 *.DS_Store
 
-# Dependency and Build Tools Files
-CMakeCache.txt
-CMakeFiles/
-Makefile
-*.a
-*.lib
-
 # Log Files
 *.log
 

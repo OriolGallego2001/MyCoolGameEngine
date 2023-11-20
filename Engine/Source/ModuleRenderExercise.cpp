@@ -16,21 +16,6 @@ ModuleRenderExercise::~ModuleRenderExercise()
 {
 }
 
-float4x4 LookAt(float3 from, float3 to, float3 up) {
-    float4x4 m;
-    float3 forward = from - to;
-    forward.Normalize();
-    float3 right = up.Cross(forward);
-    right.Normalize();
-    float3 newup = forward.Cross(right);
-
-    m[0][0] = right.x, m[0][1] = right.y, m[0][2] = right.z;
-    m[1][0] = newup.x, m[1][1] = newup.y, m[1][2] = newup.z;
-    m[2][0] = forward.x, m[2][1] = forward.y, m[2][2] = forward.z;
-    m[3][0] = from.x, m[3][1] = from.y, m[3][2] = from.z;
-
-    return m;
-}
 
 bool ModuleRenderExercise::Init()
 {
@@ -53,7 +38,7 @@ bool ModuleRenderExercise::Init()
     model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
         float4x4::RotateZ(pi / 4.0f),
         float3(2.0f, 1.0f, 1.0f));
-    view = LookAt(float3(0.0f, 4.0f, 8.0f), float3(0.0f, 0.0f, 0.0f), float3::unitY);
+    view = float4x4::identity;
 
     return true;
 }
