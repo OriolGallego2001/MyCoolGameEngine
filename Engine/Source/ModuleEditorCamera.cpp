@@ -45,10 +45,14 @@ bool ModuleEditorCamera::Init()
     frustum.up = float3::unitY;
     frustum.front = float3::unitZ;
     float4x4 projectionGL = frustum.ProjectionMatrix().Transposed(); //<-- Important to transpose!
+    LookAt(float3(1.0f, 1.0f, 1.0f));
+
     //Send the frustum projection matrix to OpenGL
     // direct mode would be:
     glMatrixMode(GL_PROJECTION);
     glLoadMatrixf(*projectionGL.v);
+
+
 
     return true;
 }

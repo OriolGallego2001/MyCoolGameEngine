@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "../glew-2.1.0/include/GL/glew.h"
 #include "ModuleWindow.h"
+#include "ModuleEditorCamera.h"
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -170,8 +171,8 @@ void ModuleRenderExercise::RenderTriangle()
 
     glUseProgram(program_id);
     glUniformMatrix4fv(glGetUniformLocation(program_id, "model"), 1, GL_TRUE, &model[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(program_id, "view"), 1, GL_TRUE, &view[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(program_id, "proj"), 1, GL_TRUE, &proj[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(program_id, "viewproj"), 1, GL_TRUE, &App->GetEditorCamera()->ViewProjMatrix[0][0]);
+    
     // TODO: bind buffer and vertex attributes
     RenderVBO(this->triangleVBO, this->program_id);
 

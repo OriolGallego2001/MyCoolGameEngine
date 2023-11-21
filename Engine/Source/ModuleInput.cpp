@@ -4,6 +4,8 @@
 #include "ModuleOpenGL.h"
 #include "SDL/include/SDL.h"
 #include "imgui_impl_sdl2.h"
+#include "ModuleEditorCamera.h"
+
 
 ModuleInput::ModuleInput()
 {}
@@ -44,6 +46,7 @@ update_status ModuleInput::Update()
                 if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
                     App->GetOpenGL()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 break;
+            
         }
     }
 
