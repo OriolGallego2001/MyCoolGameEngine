@@ -1,9 +1,10 @@
-#include "ModuleRenderExercise.h"
+﻿#include "ModuleRenderExercise.h"
 #include "ModuleOpenGL.h"
 #include "Application.h"
 #include "../glew-2.1.0/include/GL/glew.h"
 #include "ModuleWindow.h"
 #include "ModuleEditorCamera.h"
+#include "TextureLoader.h"
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -23,7 +24,7 @@ bool ModuleRenderExercise::Init()
     this->triangleVBO = CreateTriangleVBO();
 
     this->vertex_id = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("../Data/Shaders/basic.vs"));
-    this->fragment_id = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("../Data/Shaders/hello_world.fs"));
+    this->fragment_id = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("../Data/Shaders/flat.fs"));
     this->program_id = CreateProgram(vertex_id, fragment_id);
     aspect = App->GetWindow()->getAspectRatio();
     frustum.type = FrustumType::PerspectiveFrustum;
@@ -36,9 +37,12 @@ bool ModuleRenderExercise::Init()
     frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 
     proj = frustum.ProjectionMatrix();
+    /*
     model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
         float4x4::RotateZ(pi / 4.0f),
         float3(2.0f, 1.0f, 1.0f));
+    */
+    model = float4x4::identity;
     view = float4x4::identity;
 
     return true;
@@ -52,7 +56,9 @@ update_status ModuleRenderExercise::PreUpdate()
 update_status ModuleRenderExercise::Update()
 {
     // RenderVBO(this->triangleVBO, this->program_id);
-    RenderTriangle();
+    //RenderTriangle();
+    RenderMonkey();
+    
     return UPDATE_CONTINUE;
 }
 
@@ -177,4 +183,59 @@ void ModuleRenderExercise::RenderTriangle()
     RenderVBO(this->triangleVBO, this->program_id);
 
     glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
+void ModuleRenderExercise::RenderMonkey()
+{
+
+    
+    float buffer_data[] = {
+         -1.0f, -1.0f, 0.0f, // ← v0 pos
+         1.0f, -1.0f, 0.0f, // ← v1 pos
+         -1.0f, 1.0f, 0.0f, // ← v2 pos
+         -1.0f, 1.0f, 0.0f, // ← v3 pos
+         1.0f, -1.0f, 0.0f, // ← v4 pos
+         1.0f, 1.0f, 0.0f,  // ← v5 pos
+
+
+
+         0.0f, 1.0f, // ← v0 texcoord
+         1.0f, 1.0f, // ← v1 texcoord
+         0.0f, 0.0f, // ← v2 texcoord
+         0.0f, 0.0f, // ← v3 texcoord
+         1.0f, 1.0f, // ← v4 texcoord
+         1.0f, 0.0f, // ← v5 texcoord
+    };
+
+    unsigned vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo); // set vbo active
+    glBufferData(GL_ARRAY_BUFFER, sizeof(buffer_data), buffer_data, GL_STATIC_DRAW);
+
+
+    glUseProgram(program_id);
+    glUniformMatrix4fv(glGetUniformLocation(program_id, "model"), 1, GL_TRUE, &model[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(program_id, "viewproj"), 1, GL_TRUE, &model[0][0]);//&App->GetEditorCamera()->ViewProjMatrix[0][0]);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0,
+        (void*)0 // buffer offset
+    );
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0,
+        (void*)(sizeof(float) * 3 * 6) // buffer offset
+    );
+
+
+    TextureLoader* mytex = new TextureLoader();
+    mytex->LoadTexture(L"../Data/Test-image-Baboon.ppm");
+    glActiveTexture(GL_TEXTURE5);
+    mytex->BindTexture();
+
+    RenderVBO(vbo, program_id);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
+
 }

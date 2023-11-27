@@ -10,28 +10,49 @@ TextureLoader::~TextureLoader() {
 }
 
 
-bool TextureLoader::LoadTexture(const char* filePath) {
+bool TextureLoader::LoadTexture(const wchar_t* filePath) {
 
-    wchar_t wideFilePath[MAX_PATH];
-    mbstowcs(wideFilePath, filePath, MAX_PATH);
 
     // Use DirectXTex to load the texture
     DirectX::TexMetadata metadata;
     DirectX::ScratchImage scratchImage;
     HRESULT result = DirectX::LoadFromDDSFile(
-        wideFilePath, DirectX::DDS_FLAGS_NONE, &metadata, scratchImage);
+        filePath, DirectX::DDS_FLAGS_NONE, &metadata, scratchImage);
     if (!SUCCEEDED(result)) {
         result = DirectX::LoadFromTGAFile(
-            wideFilePath, DirectX::TGA_FLAGS_NONE, &metadata, scratchImage);
+            filePath, DirectX::TGA_FLAGS_NONE, &metadata, scratchImage);
         if (!SUCCEEDED(result)) {
             result = DirectX::LoadFromWICFile(
-                wideFilePath, DirectX::WIC_FLAGS_NONE, &metadata, scratchImage);
+                filePath, DirectX::WIC_FLAGS_NONE, &metadata, scratchImage);
         }
     }
     
     if(SUCCEEDED(result)) {
         // Generate texture and set parameters
         // Generate texture and set parameters
+        int internalFormat, format, type;
+        switch (metadata.format)
+        {
+        case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+        case DXGI_FORMAT_R8G8B8A8_UNORM:
+            internalFormat = GL_RGBA8;
+            format = GL_RGBA;
+            type = GL_UNSIGNED_BYTE;
+            break;
+        case DXGI_FORMAT_B8G8R8A8_UNORM_SRGB:
+        case DXGI_FORMAT_B8G8R8A8_UNORM:
+            internalFormat = GL_RGBA8;
+            format = GL_BGRA;
+            type = GL_UNSIGNED_BYTE;
+            break;
+        case DXGI_FORMAT_B5G6R5_UNORM:
+            internalFormat = GL_RGB8;
+            format = GL_BGR;
+            type = GL_UNSIGNED_BYTE;
+            break;
+        default:
+            assert(false && "Unsupported format");
+        }
         glBindTexture(GL_TEXTURE_2D, textureID);
 
         // Specify texture parameters/options
@@ -44,12 +65,12 @@ bool TextureLoader::LoadTexture(const char* filePath) {
         glTexImage2D(
             GL_TEXTURE_2D,
             0,
-            GL_RGBA,
+            internalFormat,
             metadata.width,
             metadata.height,
             0,
-            GL_RGBA,
-            GL_UNSIGNED_BYTE,
+            format,
+            type,
             scratchImage.GetPixels()
         );
 

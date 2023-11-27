@@ -9,7 +9,7 @@ public:
 	~TextureLoader();
 
 
-	bool LoadTexture(const char* filePath);
+	bool LoadTexture(const wchar_t* filePath);
 	void BindTexture();
 	void UnbindTexture();
 

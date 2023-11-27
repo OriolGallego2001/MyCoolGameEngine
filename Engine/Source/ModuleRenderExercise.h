@@ -21,6 +21,7 @@ public:
 	unsigned CreateTriangleVBO();
 	void DestroyTriangleVBO();
 	void RenderTriangle();
+	void RenderMonkey();
 private:
 	unsigned triangleVBO;
 	unsigned fragment_id;

@@ -49,8 +49,7 @@ bool ModuleEditorCamera::Init()
 
     //Send the frustum projection matrix to OpenGL
     // direct mode would be:
-    glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(*projectionGL.v);
+    
 
 
 
@@ -59,9 +58,7 @@ bool ModuleEditorCamera::Init()
 
 update_status ModuleEditorCamera::PreUpdate()
 {
-    float4x4 viewGL = float4x4(frustum.ViewMatrix()).Transposed();
-    glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixf(*viewGL.v);
+  
     return UPDATE_CONTINUE;
 }
 
