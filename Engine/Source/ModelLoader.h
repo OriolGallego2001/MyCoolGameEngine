@@ -10,7 +10,7 @@ class ModelLoader
 public:
     ModelLoader();
     ~ModelLoader();
-
+    void loadModel(const char* path);
 
     // Add more functions as needed, e.g., for drawing the model
 
