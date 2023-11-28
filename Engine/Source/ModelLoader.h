@@ -5,6 +5,8 @@
 #include <iostream>
 #include "tiny_gltf.h"
 
+using namespace tinygltf;
+
 class ModelLoader
 {
 public:
@@ -16,7 +18,7 @@ public:
 
 private:
     GLuint vbo;
-    tinygltf::Model model;
+    Model model;
     std::vector<float> positions;
     std::vector<float> texCoords;
 
