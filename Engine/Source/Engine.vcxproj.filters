@@ -106,7 +106,6 @@
     </ClInclude>
     <ClInclude Include="ModuleImGUI.h" />
     <ClInclude Include="ModuleRenderExercise.h" />
-    <ClInclude Include="tiny_gltf.h" />
     <ClInclude Include="ModuleEditorCamera.h" />
     <ClInclude Include="SDL\include\begin_code.h" />
     <ClInclude Include="SDL\include\close_code.h" />
@@ -256,6 +255,10 @@
     <ClInclude Include="MathGeoLib\include\MathGeoLibFwd.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="ModelLoader.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="stb_image_write.h" />
+    <ClInclude Include="tiny_gltf.h" />
+    <ClInclude Include="json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc" />
