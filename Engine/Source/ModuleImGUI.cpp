@@ -131,6 +131,12 @@ void ModuleImGUI::renderLogWindow() const
 	float3 camerapos = App->GetEditorCamera()->GetCameraPos();
 	ImGui::InputFloat3("CameraPos", &camerapos[0]);
 
+	float3x3 cameraRotation = App->GetEditorCamera()->GetRotationMatrix();
+	ImGui::InputFloat3("CameraRot1", &cameraRotation[0][0]);
+	ImGui::InputFloat3("CameraRot2", &cameraRotation[1][0]);
+	ImGui::InputFloat3("CameraRot3", &cameraRotation[2][0]);
+
+
 	float4x4 viewproj = App->GetEditorCamera()->GetViewProjMatrix();
 	ImGui::InputFloat4("CameraVP1", &viewproj[0][0]);
 	ImGui::InputFloat4("CameraVP2", &viewproj[1][0]);

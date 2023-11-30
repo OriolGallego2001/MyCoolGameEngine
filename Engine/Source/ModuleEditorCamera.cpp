@@ -63,9 +63,10 @@ void ModuleEditorCamera::move(const float3& delta)
 
 void ModuleEditorCamera::rotate(float angle, const float3& axis)
 {
-    rotationMatrix.RotateAxisAngle(axis, angle);
-    frustum.front = rotationMatrix.WorldX();
-    frustum.up = rotationMatrix.WorldY();
+    rotationMatrix = float3x3::RotateAxisAngle(axis, angle);
+    frustum.front = (rotationMatrix * frustum.front).Normalized();  
+    frustum.up = (rotationMatrix * frustum.up).Normalized();    
+    
     
 }
 
@@ -115,12 +116,12 @@ void ModuleEditorCamera::ProcessInput()
     }
     if (keyboard[SDL_SCANCODE_UP])
     {
-        rotate(speed, frustum.up.Cross(frustum.front));
+        rotate(speed, frustum.WorldRight());
 
     }
     if (keyboard[SDL_SCANCODE_DOWN])
     {
-        rotate(-speed, frustum.up.Cross(frustum.front));
+        rotate(-speed, frustum.WorldRight());
 
     }
     if (keyboard[SDL_SCANCODE_LEFT])

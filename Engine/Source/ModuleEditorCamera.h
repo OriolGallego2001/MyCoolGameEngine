@@ -18,6 +18,7 @@ public:
 	const float4x4& GetViewProjMatrix() const { return frustum.ViewProjMatrix(); }
 	const float4x4& GetInvViewProjMatrix() const { float4x4 vpMat = frustum.ViewProjMatrix(); vpMat.Inverse(); return vpMat; }
 	const float3& GetCameraPos() const { return frustum.pos; }
+	const float3x3& GetRotationMatrix() const { return rotationMatrix; }
 	void ProcessInput();
 
 private:
