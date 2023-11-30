@@ -23,7 +23,7 @@ ModelLoader::~ModelLoader() {
 void ModelLoader::loadModel(const char* path)
 {
     assert(path != nullptr);
-
+    /*
     tinygltf::TinyGLTF gltfContext;
     std::string error, warning;
     bool loadOk = gltfContext.LoadASCIIFromFile(&model, &error, &warning, path);
@@ -40,5 +40,7 @@ void ModelLoader::loadModel(const char* path)
             
         }
     }
+    */
+
 }
 

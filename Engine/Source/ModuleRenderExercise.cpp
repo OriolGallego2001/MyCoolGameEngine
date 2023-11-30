@@ -174,13 +174,13 @@ void ModuleRenderExercise::DestroyTriangleVBO()
 
 void ModuleRenderExercise::RenderTriangle()
 {
-
+    float4x4 viewproj = App->GetEditorCamera()->GetViewProjMatrix();
     glUseProgram(program_id);
     glUniformMatrix4fv(glGetUniformLocation(program_id, "model"), 1, GL_TRUE, &model[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(program_id, "viewproj"), 1, GL_TRUE, &App->GetEditorCamera()->ViewProjMatrix[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(program_id, "viewproj"), 1, GL_TRUE, &viewproj[0][0]);
     
     // TODO: bind buffer and vertex attributes
-    RenderVBO(this->triangleVBO, this->program_id);
+    RenderVBO(triangleVBO, program_id);
 
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
@@ -212,10 +212,11 @@ void ModuleRenderExercise::RenderMonkey()
     glBindBuffer(GL_ARRAY_BUFFER, vbo); // set vbo active
     glBufferData(GL_ARRAY_BUFFER, sizeof(buffer_data), buffer_data, GL_STATIC_DRAW);
 
+    float4x4 viewproj = App->GetEditorCamera()->GetViewProjMatrix();
 
     glUseProgram(program_id);
     glUniformMatrix4fv(glGetUniformLocation(program_id, "model"), 1, GL_TRUE, &model[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(program_id, "viewproj"), 1, GL_TRUE, &model[0][0]);//&App->GetEditorCamera()->ViewProjMatrix[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(program_id, "viewproj"), 1, GL_TRUE, &viewproj[0][0]);//&App->GetEditorCamera()->ViewProjMatrix[0][0]);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0,

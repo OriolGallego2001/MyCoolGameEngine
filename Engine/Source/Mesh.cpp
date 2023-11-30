@@ -31,6 +31,7 @@ void Mesh::Load(const tinygltf::Model& model, const Mesh& mesh, const tinygltf::
 
 void Mesh::Render()
 {
+	/*
 	glUseProgram(program);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glEnableVertexAttribArray(0);
@@ -38,11 +39,13 @@ void Mesh::Render()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)(sizeof(float) * 3));
 	glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+	*/
 }
 
 
-void Mesh::LoadEBO(const Model& model, const Mesh& mesh, const Primitive& primitive)
+void Mesh::LoadEBO(const tinygltf::Model& model, const Mesh& mesh, const tinygltf::Primitive& primitive)
 {
+	/*
 	if (primitive.indices >= 0)
 	{
 		glGenBuffers(1, &ebo);
@@ -59,10 +62,11 @@ void Mesh::LoadEBO(const Model& model, const Mesh& mesh, const Primitive& primit
 			const uint32_t* bufferInd = reinterpret_cast<const int32_t*>(buffer);
 			for (uint32_t i = 0; i < num_indices; ++i) ptr[i] = bufferInd[i];
 		}
-		/* TODO indAcc.componentType == TINYGLTF_PARAMETER_TYPE_UNSIGNED_SHORT*/
-		/* TODO indAcc.componentType == TINYGLTF_PARAMETER_TYPE_UNSIGNED_BYTE*/
+		// TODO indAcc.componentType == TINYGLTF_PARAMETER_TYPE_UNSIGNED_SHORT
+		// TODO indAcc.componentType == TINYGLTF_PARAMETER_TYPE_UNSIGNED_BYTE
 		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	}
+	*/
 }
 
 

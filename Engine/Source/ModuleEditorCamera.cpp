@@ -10,27 +10,7 @@ ModuleEditorCamera::~ModuleEditorCamera()
 {
 }
 
-void ModuleEditorCamera::LookAt(const float3& to) {
-    float4x4 m;
-    float3 from = frustum.pos;
-    float3 up = frustum.up;
 
-    float3 forward = from - to;
-    forward.Normalize();
-    float3 right = up.Cross(forward);
-    right.Normalize();
-    float3 newup = forward.Cross(right);
-
-    m[0][0] = right.x, m[0][1] = right.y, m[0][2] = right.z;
-    m[1][0] = newup.x, m[1][1] = newup.y, m[1][2] = newup.z;
-    m[2][0] = forward.x, m[2][1] = forward.y, m[2][2] = forward.z;
-    m[3][0] = from.x, m[3][1] = from.y, m[3][2] = from.z;
-
-    center = to;
-    ViewProjMatrix = m * frustum.ProjectionMatrix();
-    InvViewProjMatrix = ViewProjMatrix;
-    InvViewProjMatrix.Inverse();
-}
 
 
 bool ModuleEditorCamera::Init()
@@ -42,16 +22,10 @@ bool ModuleEditorCamera::Init()
     frustum.farPlaneDistance = 200.0f;
     frustum.horizontalFov = DegToRad(90.0f);
     frustum.verticalFov =  2.f * Atan(Tan(frustum.horizontalFov * 0.5f) / 1.3f);;
-    frustum.up = float3::unitY;
-    frustum.front = float3::unitZ;
-    float4x4 projectionGL = frustum.ProjectionMatrix().Transposed(); //<-- Important to transpose!
-    LookAt(float3(1.0f, 1.0f, 1.0f));
-
-    //Send the frustum projection matrix to OpenGL
-    // direct mode would be:
     
-
-
+    rotationMatrix = float3x3::identity;
+    frustum.front = rotationMatrix.WorldX();
+    frustum.up = rotationMatrix.WorldY(); 
 
     return true;
 }
@@ -65,6 +39,7 @@ update_status ModuleEditorCamera::PreUpdate()
 update_status ModuleEditorCamera::Update()
 {
     //TODO: Create the input triggers
+    ProcessInput();
     return UPDATE_CONTINUE;
 }
 
@@ -82,15 +57,84 @@ void ModuleEditorCamera::move(const float3& delta)
 {
     frustum.pos = frustum.pos - delta;
     frustum.pos = frustum.pos - delta;
-    LookAt(center - delta);
+    
     
 }
 
 void ModuleEditorCamera::rotate(float angle, const float3& axis)
 {
-    float4x4 R;
-    R.RotateAxisAngle(axis, angle);
-    float4 new_front4 = R * float4((center - frustum.pos),1);
-    float3 new_front = new_front4.xyz() / new_front4.w;
-    LookAt(frustum.pos + new_front);
+    rotationMatrix.RotateAxisAngle(axis, angle);
+    frustum.front = rotationMatrix.WorldX();
+    frustum.up = rotationMatrix.WorldY();
+    
+}
+
+
+void ModuleEditorCamera::ProcessInput()
+{
+    const Uint8* keyboard = SDL_GetKeyboardState(NULL);
+
+    float speed = 0.01f;
+
+    if (keyboard[SDL_SCANCODE_LSHIFT])
+    {
+        speed = 0.03f;
+    }
+
+    if (keyboard[SDL_SCANCODE_W])
+    {
+        move(frustum.front.Normalized() * speed);
+    }
+
+    if (keyboard[SDL_SCANCODE_S])
+    {
+        move( - frustum.front.Normalized() * speed);
+
+    }
+
+    if (keyboard[SDL_SCANCODE_A])
+    {
+        move(-frustum.WorldRight().Normalized() * speed);
+
+    }
+
+    if (keyboard[SDL_SCANCODE_D])
+    {
+        move(frustum.WorldRight().Normalized() * speed);
+    }
+
+    if (keyboard[SDL_SCANCODE_Q])
+    {
+        move(frustum.up.Normalized() * speed);
+
+    }
+    if (keyboard[SDL_SCANCODE_E])
+    {
+        move( - frustum.up.Normalized() * speed);
+
+    }
+    if (keyboard[SDL_SCANCODE_UP])
+    {
+        rotate(speed, frustum.up.Cross(frustum.front));
+
+    }
+    if (keyboard[SDL_SCANCODE_DOWN])
+    {
+        rotate(-speed, frustum.up.Cross(frustum.front));
+
+    }
+    if (keyboard[SDL_SCANCODE_LEFT])
+    {
+        rotate(-speed, frustum.up);
+
+    }
+    if (keyboard[SDL_SCANCODE_RIGHT])
+    {
+        rotate(speed, frustum.up);
+
+    }
+
+
+
+
 }

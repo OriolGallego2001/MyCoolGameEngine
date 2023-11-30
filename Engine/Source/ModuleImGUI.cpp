@@ -8,6 +8,7 @@
 #include "SDL.h"
 #include "../glew-2.1.0/include/GL/glew.h"
 #include <cstring>
+#include "ModuleEditorCamera.h"
 
 
 
@@ -127,10 +128,23 @@ void ModuleImGUI::renderLogWindow() const
 {
 	ImGui::Begin("Console log:");
 
+	float3 camerapos = App->GetEditorCamera()->GetCameraPos();
+	ImGui::InputFloat3("CameraPos", &camerapos[0]);
+
+	float4x4 viewproj = App->GetEditorCamera()->GetViewProjMatrix();
+	ImGui::InputFloat4("CameraVP1", &viewproj[0][0]);
+	ImGui::InputFloat4("CameraVP2", &viewproj[1][0]);
+	ImGui::InputFloat4("CameraVP3", &viewproj[2][0]);
+	ImGui::InputFloat4("CameraVP4", &viewproj[3][0]);
+
 	// Display information
+	/*
 	for (const char* message : logMessages) {
 		ImGui::TextUnformatted(message);
 	}
+	*/
+
+	
 
 
 	// End the ImGui window
