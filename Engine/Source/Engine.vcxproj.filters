@@ -66,7 +66,7 @@
     <ClCompile Include="MathGeoLib\include\Time\Clock.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
-    <ClCompile Include="GMesh.cpp" />
+    <ClCompile Include="Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -260,7 +260,7 @@
     <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="tiny_gltf.h" />
     <ClInclude Include="json.hpp" />
-    <ClInclude Include="GMesh.h" />
+    <ClInclude Include="Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc" />

@@ -21,6 +21,6 @@ public:
 	void* getContext();
 
 private:
-	void* context;
+	void* context = nullptr;
 
 };

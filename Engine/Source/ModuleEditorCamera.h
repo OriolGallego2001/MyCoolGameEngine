@@ -12,10 +12,15 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
-	void move(float3 delta);
+	void move(const float3& delta);
 	void rotate(float angle, const float3& axis);
-	void LookAt(float3 to);
+	void LookAt(const float3& to);
 
+	const float4x4& GetViewMatrix() const { return ViewProjMatrix; }
+	const float4x4& GetInvViewMatrix() const { return InvViewProjMatrix; }
+
+
+private:
 	Frustum frustum;
 	float3 center; //Where the camera is looking at
 	float4x4 ViewProjMatrix;

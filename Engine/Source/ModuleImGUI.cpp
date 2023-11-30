@@ -99,7 +99,7 @@ bool ModuleImGUI::CleanUp()
 }
 
 
-void ModuleImGUI::renderAboutWindow()
+void ModuleImGUI::renderAboutWindow() const
 {
 	// Begin the ImGui window
 	ImGui::Begin("About...");
@@ -123,7 +123,7 @@ void ModuleImGUI::renderAboutWindow()
 	ImGui::End();
 }
 
-void ModuleImGUI::renderLogWindow()
+void ModuleImGUI::renderLogWindow() const
 {
 	ImGui::Begin("Console log:");
 

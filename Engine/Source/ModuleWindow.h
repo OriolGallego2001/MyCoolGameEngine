@@ -25,10 +25,10 @@ public:
 
 public:
 	//The window we'll be rendering to
-	SDL_Window* window = NULL;
+	SDL_Window* window = nullptr;
 
 	//The surface contained by the window
-	SDL_Surface* screen_surface = NULL;
+	SDL_Surface* screen_surface = nullptr;
 };
 
 #endif // __ModuleWindow_H__

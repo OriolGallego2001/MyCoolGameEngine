@@ -4,7 +4,6 @@
 #include "ModuleOpenGL.h"
 #include "SDL/include/SDL.h"
 #include "imgui_impl_sdl2.h"
-#include "ModuleEditorCamera.h"
 
 
 ModuleInput::ModuleInput()

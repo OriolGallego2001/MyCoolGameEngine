@@ -5,7 +5,6 @@
 #define TINYGLTF_NO_EXTERNAL_IMAGE
 #define TINYGLTF_IMPLEMENTATION
 #include "tiny_gltf.h"
-using namespace tinygltf;
 #include "Application.h"
 
 
@@ -23,7 +22,9 @@ ModelLoader::~ModelLoader() {
 
 void ModelLoader::loadModel(const char* path)
 {
-    TinyGLTF gltfContext;
+    assert(path != nullptr);
+
+    tinygltf::TinyGLTF gltfContext;
     std::string error, warning;
     bool loadOk = gltfContext.LoadASCIIFromFile(&model, &error, &warning, path);
     if (!loadOk)
@@ -39,6 +40,5 @@ void ModelLoader::loadModel(const char* path)
             
         }
     }
-
 }
 

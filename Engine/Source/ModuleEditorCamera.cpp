@@ -10,10 +10,10 @@ ModuleEditorCamera::~ModuleEditorCamera()
 {
 }
 
-void ModuleEditorCamera::LookAt(float3 to) {
+void ModuleEditorCamera::LookAt(const float3& to) {
     float4x4 m;
-    float3 from = this->frustum.pos;
-    float3 up = this->frustum.up;
+    float3 from = frustum.pos;
+    float3 up = frustum.up;
 
     float3 forward = from - to;
     forward.Normalize();
@@ -26,10 +26,10 @@ void ModuleEditorCamera::LookAt(float3 to) {
     m[2][0] = forward.x, m[2][1] = forward.y, m[2][2] = forward.z;
     m[3][0] = from.x, m[3][1] = from.y, m[3][2] = from.z;
 
-    this->center = to;
-    this->ViewProjMatrix = m * frustum.ProjectionMatrix();
-    this->InvViewProjMatrix = this->ViewProjMatrix;
-    this->InvViewProjMatrix.Inverse();
+    center = to;
+    ViewProjMatrix = m * frustum.ProjectionMatrix();
+    InvViewProjMatrix = ViewProjMatrix;
+    InvViewProjMatrix.Inverse();
 }
 
 
@@ -64,7 +64,7 @@ update_status ModuleEditorCamera::PreUpdate()
 
 update_status ModuleEditorCamera::Update()
 {
-
+    //TODO: Create the input triggers
     return UPDATE_CONTINUE;
 }
 
@@ -78,7 +78,7 @@ bool ModuleEditorCamera::CleanUp()
     return true;
 }
 
-void ModuleEditorCamera::move(float3 delta)
+void ModuleEditorCamera::move(const float3& delta)
 {
     frustum.pos = frustum.pos - delta;
     frustum.pos = frustum.pos - delta;

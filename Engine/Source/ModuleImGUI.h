@@ -13,8 +13,8 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
-	void renderAboutWindow();
-	void renderLogWindow();
+	void renderAboutWindow() const;
+	void renderLogWindow() const;
 
 
 };

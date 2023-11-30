@@ -2,10 +2,8 @@
 
 #include "../glew-2.1.0/include/GL/glew.h"
 #include <vector>
-#include <iostream>
 #include "tiny_gltf.h"
 
-using namespace tinygltf;
 
 class ModelLoader
 {
@@ -18,7 +16,7 @@ public:
 
 private:
     GLuint vbo;
-    Model model;
+    tinygltf::Model model;
     std::vector<float> positions;
     std::vector<float> texCoords;
 

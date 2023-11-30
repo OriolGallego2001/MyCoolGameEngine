@@ -8,8 +8,9 @@
 
 
 
-ModuleOpenGL::ModuleOpenGL()
+ModuleOpenGL::ModuleOpenGL() 
 {
+
 }
 
 // Destructor
