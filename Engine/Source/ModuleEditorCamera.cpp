@@ -17,15 +17,14 @@ bool ModuleEditorCamera::Init()
 {
     
     frustum.type = FrustumType::PerspectiveFrustum;
-    frustum.pos = float3(0.0f, 1.0f, -2.0f);
+    frustum.pos = float3(0.0f, 1.0f, 2.0f);
     frustum.nearPlaneDistance = 0.1f;
     frustum.farPlaneDistance = 200.0f;
     frustum.horizontalFov = DegToRad(90.0f);
     frustum.verticalFov =  2.f * Atan(Tan(frustum.horizontalFov * 0.5f) / 1.3f);;
     
-    rotationMatrix = float3x3::identity;
-    frustum.front = rotationMatrix.WorldX();
-    frustum.up = rotationMatrix.WorldY(); 
+    frustum.front = float3(1,0,0);
+    frustum.up = float3(0, 1, 0);
 
     return true;
 }
@@ -63,7 +62,7 @@ void ModuleEditorCamera::move(const float3& delta)
 
 void ModuleEditorCamera::rotate(float angle, const float3& axis)
 {
-    rotationMatrix = float3x3::RotateAxisAngle(axis, angle);
+    float3x3 rotationMatrix = float3x3::RotateAxisAngle(axis, angle);
     frustum.front = (rotationMatrix * frustum.front).Normalized();  
     frustum.up = (rotationMatrix * frustum.up).Normalized();    
     
@@ -84,24 +83,24 @@ void ModuleEditorCamera::ProcessInput()
 
     if (keyboard[SDL_SCANCODE_W])
     {
-        move(frustum.front.Normalized() * speed);
+        move(- frustum.front.Normalized() * speed);
     }
 
     if (keyboard[SDL_SCANCODE_S])
     {
-        move( - frustum.front.Normalized() * speed);
+        move(  frustum.front.Normalized() * speed);
 
     }
 
     if (keyboard[SDL_SCANCODE_A])
     {
-        move(-frustum.WorldRight().Normalized() * speed);
+        move(frustum.WorldRight().Normalized() * speed);
 
     }
 
     if (keyboard[SDL_SCANCODE_D])
     {
-        move(frustum.WorldRight().Normalized() * speed);
+        move(- frustum.WorldRight().Normalized() * speed);
     }
 
     if (keyboard[SDL_SCANCODE_Q])
@@ -126,12 +125,12 @@ void ModuleEditorCamera::ProcessInput()
     }
     if (keyboard[SDL_SCANCODE_LEFT])
     {
-        rotate(-speed, frustum.up);
+        rotate(speed, frustum.up);
 
     }
     if (keyboard[SDL_SCANCODE_RIGHT])
     {
-        rotate(speed, frustum.up);
+        rotate(-speed, frustum.up);
 
     }
 
