@@ -1,31 +1,23 @@
 #include "ModelLoader.h"
 
-#define TINYGLTF_NO_STB_IMAGE_WRITE
-#define TINYGLTF_NO_STB_IMAGE
-#define TINYGLTF_NO_EXTERNAL_IMAGE
-#define TINYGLTF_IMPLEMENTATION
-#include "tiny_gltf.h"
 #include "Application.h"
+#include "Mesh.h"
 
 
-
-ModelLoader::ModelLoader() : vbo(0) {
-    // Initialize any necessary OpenGL or other setup here
+ModelLoader::ModelLoader()  {
 }
 
 ModelLoader::~ModelLoader() {
-    // Cleanup resources
-    if (vbo != 0) {
-        glDeleteBuffers(1, &vbo);
-    }
+
 }
 
 void ModelLoader::loadModel(const char* path)
 {
+    
     assert(path != nullptr);
-    /*
+    
     tinygltf::TinyGLTF gltfContext;
-    std::string error, warning;
+    std::string error, warning; 
     bool loadOk = gltfContext.LoadASCIIFromFile(&model, &error, &warning, path);
     if (!loadOk)
     {
@@ -35,12 +27,14 @@ void ModelLoader::loadModel(const char* path)
     {
         for (const auto& primitive : srcMesh.primitives)
         {
-            
+            Mesh* mesh = new Mesh();
+            mesh->Load(model, srcMesh, primitive);
             
             
         }
     }
-    */
+    
+    
 
 }
 

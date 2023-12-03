@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../glew-2.1.0/include/GL/glew.h"
 #include <vector>
-#include "tiny_gltf.h"
+#include "Mesh.h"
 
 
 class ModelLoader
@@ -15,10 +14,10 @@ public:
     // Add more functions as needed, e.g., for drawing the model
 
 private:
-    GLuint vbo;
     tinygltf::Model model;
     std::vector<float> positions;
     std::vector<float> texCoords;
+    
 
 
 
