@@ -23,8 +23,8 @@ bool ModuleRenderExercise::Init()
 {
     this->triangleVBO = CreateTriangleVBO();
 
-    this->vertex_id = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("../Data/Shaders/basic.vs"));
-    this->fragment_id = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("../Data/Shaders/flat.fs"));
+    this->vertex_id = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("Data/Shaders/basic.vs"));
+    this->fragment_id = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("Data/Shaders/flat.fs"));
     this->program_id = CreateProgram(vertex_id, fragment_id);
     aspect = App->GetWindow()->getAspectRatio();
     frustum.type = FrustumType::PerspectiveFrustum;
@@ -229,7 +229,7 @@ void ModuleRenderExercise::RenderMonkey()
 
 
     TextureLoader* mytex = new TextureLoader();
-    mytex->LoadTexture(L"../Data/Test-image-Baboon.ppm");
+    mytex->LoadTexture(L"Data/Test-image-Baboon.ppm");
     glActiveTexture(GL_TEXTURE5);
     mytex->BindTexture();
 

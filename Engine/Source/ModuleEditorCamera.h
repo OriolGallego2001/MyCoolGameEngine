@@ -1,6 +1,13 @@
 #pragma once
 #include "Module.h"
 #include "MathGeoLib/include/MathGeoLib.h"
+
+enum CameraType
+{
+	fixed,
+	movable
+};
+
 class ModuleEditorCamera :
     public Module
 {
@@ -23,6 +30,7 @@ public:
 private:
 	Frustum frustum;
 	float2 mousePos;
+	CameraType cameraType = movable;
 
 
 

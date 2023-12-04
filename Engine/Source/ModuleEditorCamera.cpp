@@ -1,6 +1,8 @@
 #include "ModuleEditorCamera.h"
 #include "SDL.h"
 #include "../glew-2.1.0/include/GL/glew.h"
+#include "Application.h"
+#include "ModuleWindow.h"
 
 ModuleEditorCamera::ModuleEditorCamera()
 {
@@ -84,13 +86,13 @@ void ModuleEditorCamera::ProcessInput()
     SDL_GetMouseState(&x, &y);
     float2 mouse_delta = float2(mousePos.x - x, mousePos.y - y);
     mousePos = float2((float)x, (float)y);
-
-
+    
     if (keyboard[SDL_SCANCODE_LSHIFT])
     {
         speed = speed * 2;
     }
-    if(SDL_BUTTON(SDL_BUTTON_RIGHT)){
+    if(cameraType == movable){
+    
         if (keyboard[SDL_SCANCODE_W])
         {
             move(-frustum.front.Normalized() * speed);
@@ -125,14 +127,16 @@ void ModuleEditorCamera::ProcessInput()
         }
 
         if (mouse_delta.x != 0) {
-            rotate(mouse_delta.x, frustum.up);;
+            rotate(mouse_delta.x * 0.01, frustum.up);
         }
         if (mouse_delta.y != 0) {
-            rotate(mouse_delta.y, frustum.WorldRight());;
+            rotate(mouse_delta.y * 0.01, frustum.WorldRight());
         }
 
+        App->GetWindow()->CenterHideMouse();
+
     }
-    else {
+    else if(cameraType == fixed) {
 
         if (keyboard[SDL_SCANCODE_UP])
         {
@@ -154,21 +158,12 @@ void ModuleEditorCamera::ProcessInput()
             rotate(-speed, frustum.up);
 
         }
-        SDL_Event e;
-        while (SDL_PollEvent(&e) != 0) {
-            switch (e.type) {
-            case SDL_QUIT:
-                // Handle quit event
-                LOG("Quit event received!\n");
-                break;
-            case SDL_MOUSEWHEEL:
-                // Handle mouse wheel movement
-                move((e.wheel.y * 0.01f) * frustum.front.Normalized());
-                break;
-            }
-        }
+
+
+
 
     }
+    
 
 
 
