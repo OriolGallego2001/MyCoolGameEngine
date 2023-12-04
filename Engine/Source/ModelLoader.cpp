@@ -2,6 +2,12 @@
 
 #include "Application.h"
 #include "Mesh.h"
+#include "TextureLoader.h"
+#define TINYGLTF_NO_STB_IMAGE_WRITE
+#define TINYGLTF_NO_STB_IMAGE
+#define TINYGLTF_NO_EXTERNAL_IMAGE
+#include "tiny_gltf.h"
+#include <codecvt>
 
 
 ModelLoader::ModelLoader()  {
@@ -17,6 +23,7 @@ void ModelLoader::loadModel(const char* path)
     assert(path != nullptr);
     
     tinygltf::TinyGLTF gltfContext;
+    tinygltf::Model model;
     std::string error, warning; 
     bool loadOk = gltfContext.LoadASCIIFromFile(&model, &error, &warning, path);
     if (!loadOk)
@@ -29,12 +36,32 @@ void ModelLoader::loadModel(const char* path)
         {
             Mesh* mesh = new Mesh();
             mesh->Load(model, srcMesh, primitive);
+            meshes.push_back(mesh);
             
             
         }
     }
     
     
+
+}
+
+void ModelLoader::loadlMaterials(const tinygltf::Model& srcModel)
+{
+    for (const auto& srcMaterial : srcModel.materials)
+    {
+        unsigned int textureId = 0;
+        if (srcMaterial.pbrMetallicRoughness.baseColorTexture.index >= 0)
+        {
+            const tinygltf::Texture& texture = srcModel.textures[srcMaterial.pbrMetallicRoughness.baseColorTexture.index];
+            const tinygltf::Image& image = srcModel.images[texture.source];
+            std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+            std::wstring wideString = converter.from_bytes(image.uri);
+            const wchar_t* imageuri = wideString.c_str();
+            textureId = (App->GetTextureLoader()->LoadTexture(imageuri));
+        }
+        textures.push_back(textureId);
+    }
 
 }
 
