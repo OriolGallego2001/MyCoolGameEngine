@@ -22,6 +22,7 @@ public:
 
 private:
 	Frustum frustum;
+	float2 mousePos;
 
 
 

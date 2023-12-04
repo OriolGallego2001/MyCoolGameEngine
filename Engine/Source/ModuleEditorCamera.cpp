@@ -25,6 +25,10 @@ bool ModuleEditorCamera::Init()
     
     frustum.front = float3(1,0,0);
     frustum.up = float3(0, 1, 0);
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    mousePos = float2((float) x, (float) y);
+
 
     return true;
 }
@@ -76,63 +80,97 @@ void ModuleEditorCamera::ProcessInput()
 
     float speed = 0.01f;
 
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    float2 mouse_delta = float2(mousePos.x - x, mousePos.y - y);
+    mousePos = float2((float)x, (float)y);
+
+
     if (keyboard[SDL_SCANCODE_LSHIFT])
     {
-        speed = 0.03f;
+        speed = speed * 2;
     }
+    if(SDL_BUTTON(SDL_BUTTON_RIGHT)){
+        if (keyboard[SDL_SCANCODE_W])
+        {
+            move(-frustum.front.Normalized() * speed);
+        }
 
-    if (keyboard[SDL_SCANCODE_W])
-    {
-        move(- frustum.front.Normalized() * speed);
-    }
+        if (keyboard[SDL_SCANCODE_S])
+        {
+            move(frustum.front.Normalized() * speed);
 
-    if (keyboard[SDL_SCANCODE_S])
-    {
-        move(  frustum.front.Normalized() * speed);
+        }
 
-    }
+        if (keyboard[SDL_SCANCODE_A])
+        {
+            move(frustum.WorldRight().Normalized() * speed);
 
-    if (keyboard[SDL_SCANCODE_A])
-    {
-        move(frustum.WorldRight().Normalized() * speed);
+        }
 
-    }
+        if (keyboard[SDL_SCANCODE_D])
+        {
+            move(-frustum.WorldRight().Normalized() * speed);
+        }
 
-    if (keyboard[SDL_SCANCODE_D])
-    {
-        move(- frustum.WorldRight().Normalized() * speed);
-    }
+        if (keyboard[SDL_SCANCODE_Q])
+        {
+            move(frustum.up.Normalized() * speed);
 
-    if (keyboard[SDL_SCANCODE_Q])
-    {
-        move(frustum.up.Normalized() * speed);
+        }
+        if (keyboard[SDL_SCANCODE_E])
+        {
+            move(-frustum.up.Normalized() * speed);
 
-    }
-    if (keyboard[SDL_SCANCODE_E])
-    {
-        move( - frustum.up.Normalized() * speed);
+        }
 
-    }
-    if (keyboard[SDL_SCANCODE_UP])
-    {
-        rotate(speed, frustum.WorldRight());
-
-    }
-    if (keyboard[SDL_SCANCODE_DOWN])
-    {
-        rotate(-speed, frustum.WorldRight());
-
-    }
-    if (keyboard[SDL_SCANCODE_LEFT])
-    {
-        rotate(speed, frustum.up);
+        if (mouse_delta.x != 0) {
+            rotate(mouse_delta.x, frustum.up);;
+        }
+        if (mouse_delta.y != 0) {
+            rotate(mouse_delta.y, frustum.WorldRight());;
+        }
 
     }
-    if (keyboard[SDL_SCANCODE_RIGHT])
-    {
-        rotate(-speed, frustum.up);
+    else {
+
+        if (keyboard[SDL_SCANCODE_UP])
+        {
+            rotate(speed, frustum.WorldRight());
+
+        }
+        if (keyboard[SDL_SCANCODE_DOWN])
+        {
+            rotate(-speed, frustum.WorldRight());
+
+        }
+        if (keyboard[SDL_SCANCODE_LEFT])
+        {
+            rotate(speed, frustum.up);
+
+        }
+        if (keyboard[SDL_SCANCODE_RIGHT])
+        {
+            rotate(-speed, frustum.up);
+
+        }
+        SDL_Event e;
+        while (SDL_PollEvent(&e) != 0) {
+            switch (e.type) {
+            case SDL_QUIT:
+                // Handle quit event
+                LOG("Quit event received!\n");
+                break;
+            case SDL_MOUSEWHEEL:
+                // Handle mouse wheel movement
+                move((e.wheel.y * 0.01f) * frustum.front.Normalized());
+                break;
+            }
+        }
 
     }
+
+
 
 
 
