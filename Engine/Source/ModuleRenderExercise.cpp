@@ -5,6 +5,7 @@
 #include "ModuleWindow.h"
 #include "ModuleEditorCamera.h"
 #include "TextureLoader.h"
+#include "ModelLoader.h"
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -21,29 +22,15 @@ ModuleRenderExercise::~ModuleRenderExercise()
 
 bool ModuleRenderExercise::Init()
 {
-    this->triangleVBO = CreateTriangleVBO();
+    triangleVBO = CreateTriangleVBO();
 
-    this->vertex_id = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("Data/Shaders/basic.vs"));
-    this->fragment_id = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("Data/Shaders/flat.fs"));
-    this->program_id = CreateProgram(vertex_id, fragment_id);
-    aspect = App->GetWindow()->getAspectRatio();
-    frustum.type = FrustumType::PerspectiveFrustum;
-    frustum.pos = float3::zero;
-    frustum.front = -float3::unitZ;
-    frustum.up = float3::unitY;
-    frustum.nearPlaneDistance = 0.1f;
-    frustum.farPlaneDistance = 100.0f;
-    frustum.verticalFov = math::pi / 4.0f;
-    frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
+    vertex_id = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("Data/Shaders/basic.vs"));
+    fragment_id = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("Data/Shaders/flat.fs"));
+    program_id = CreateProgram(vertex_id, fragment_id);
+    object = new ModelLoader();
 
-    proj = frustum.ProjectionMatrix();
-    /*
-    model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
-        float4x4::RotateZ(pi / 4.0f),
-        float3(2.0f, 1.0f, 1.0f));
-    */
-    model = float4x4::identity;
-    view = float4x4::identity;
+    object->loadModel("Data/BakerHouse/BakerHouse.gltf");
+    
 
     return true;
 }
@@ -57,7 +44,8 @@ update_status ModuleRenderExercise::Update()
 {
     // RenderVBO(this->triangleVBO, this->program_id);
     //RenderTriangle();
-    RenderMonkey();
+    //RenderMonkey();
+    RenderModel();
     
     return UPDATE_CONTINUE;
 }
@@ -175,6 +163,7 @@ void ModuleRenderExercise::DestroyTriangleVBO()
 void ModuleRenderExercise::RenderTriangle()
 {
     float4x4 viewproj = App->GetEditorCamera()->GetViewProjMatrix();
+    float4x4 model = float4x4::identity;
     glUseProgram(program_id);
     glUniformMatrix4fv(glGetUniformLocation(program_id, "model"), 1, GL_TRUE, &model[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(program_id, "viewproj"), 1, GL_TRUE, &viewproj[0][0]);
@@ -213,6 +202,7 @@ void ModuleRenderExercise::RenderMonkey()
     glBufferData(GL_ARRAY_BUFFER, sizeof(buffer_data), buffer_data, GL_STATIC_DRAW);
 
     float4x4 viewproj = App->GetEditorCamera()->GetViewProjMatrix();
+    float4x4 model = float4x4::identity;
 
     glUseProgram(program_id);
     glUniformMatrix4fv(glGetUniformLocation(program_id, "model"), 1, GL_TRUE, &model[0][0]);
@@ -239,4 +229,9 @@ void ModuleRenderExercise::RenderMonkey()
 
 
 
+}
+
+void ModuleRenderExercise::RenderModel()
+{
+    object->Render(program_id);
 }

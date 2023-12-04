@@ -2,7 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
-
+class ModelLoader;
 
 class ModuleRenderExercise : public Module
 {
@@ -22,14 +22,13 @@ public:
 	void DestroyTriangleVBO();
 	void RenderTriangle();
 	void RenderMonkey();
+	void RenderModel();
 private:
 	unsigned triangleVBO;
 	unsigned fragment_id;
 	unsigned vertex_id;
 	unsigned program_id;
-	Frustum frustum;
-	float aspect;
-	float4x4 proj, model, view;
+	ModelLoader* object;
 
 	
 

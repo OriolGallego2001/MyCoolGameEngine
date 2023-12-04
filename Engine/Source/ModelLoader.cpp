@@ -41,12 +41,14 @@ void ModelLoader::loadModel(const char* path)
             
         }
     }
+
+    loadMaterials(model);
     
     
 
 }
 
-void ModelLoader::loadlMaterials(const tinygltf::Model& srcModel)
+void ModelLoader::loadMaterials(const tinygltf::Model& srcModel)
 {
     for (const auto& srcMaterial : srcModel.materials)
     {
@@ -61,6 +63,15 @@ void ModelLoader::loadlMaterials(const tinygltf::Model& srcModel)
             textureId = (App->GetTextureLoader()->LoadTexture(imageuri));
         }
         textures.push_back(textureId);
+    }
+
+}
+
+void ModelLoader::Render(unsigned int program_id)
+{
+    for (const auto& mesh : meshes) {
+        mesh->Render(program_id);
+        mesh->Draw(program_id, textures);
     }
 
 }

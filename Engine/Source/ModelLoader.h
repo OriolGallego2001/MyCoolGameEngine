@@ -13,7 +13,8 @@ public:
     ModelLoader();
     ~ModelLoader();
     void loadModel(const char* path);
-    void loadlMaterials(const tinygltf::Model& srcModel);
+    void loadMaterials(const tinygltf::Model& srcModel);
+    void Render(unsigned int program_id);
 
     // Add more functions as needed, e.g., for drawing the model
 
