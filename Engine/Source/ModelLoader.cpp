@@ -36,6 +36,8 @@ void ModelLoader::loadModel(const char* path)
         {
             Mesh* mesh = new Mesh();
             mesh->Load(model, srcMesh, primitive);
+            mesh->LoadEBO(model, srcMesh, primitive);
+            mesh->CreateVAO();
             meshes.push_back(mesh);
             
             
@@ -50,6 +52,7 @@ void ModelLoader::loadModel(const char* path)
 
 void ModelLoader::loadMaterials(const tinygltf::Model& srcModel)
 {
+    TextureLoader* mytex = new TextureLoader();
     for (const auto& srcMaterial : srcModel.materials)
     {
         unsigned int textureId = 0;
@@ -58,9 +61,9 @@ void ModelLoader::loadMaterials(const tinygltf::Model& srcModel)
             const tinygltf::Texture& texture = srcModel.textures[srcMaterial.pbrMetallicRoughness.baseColorTexture.index];
             const tinygltf::Image& image = srcModel.images[texture.source];
             std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-            std::wstring wideString = converter.from_bytes(image.uri);
+            std::wstring wideString = converter.from_bytes("Data/BakerHouse/" + image.uri);
             const wchar_t* imageuri = wideString.c_str();
-            textureId = (App->GetTextureLoader()->LoadTexture(imageuri));
+            textureId = (mytex->LoadTexture(imageuri));
         }
         textures.push_back(textureId);
     }

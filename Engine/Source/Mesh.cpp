@@ -75,7 +75,7 @@ void Mesh::CreateVAO()
 void Mesh::Draw(unsigned int program_id, const std::vector<unsigned>& textures)
 {
 	glUseProgram(program_id);
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, textures[materialIndex]);
 	glUniform1i(glGetUniformLocation(program_id, "diffuse"), 0);
 	glBindVertexArray(vao);

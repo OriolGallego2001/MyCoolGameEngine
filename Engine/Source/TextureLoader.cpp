@@ -1,5 +1,5 @@
 #include "TextureLoader.h"
-
+#include "Application.h"
 
 TextureLoader::TextureLoader() {
     glGenTextures(1, &textureID);
@@ -30,6 +30,7 @@ bool TextureLoader::LoadTexture(const wchar_t* filePath) {
     if(SUCCEEDED(result)) {
         // Generate texture and set parameters
         // Generate texture and set parameters
+        
         int internalFormat, format, type;
         switch (metadata.format)
         {
@@ -83,6 +84,7 @@ bool TextureLoader::LoadTexture(const wchar_t* filePath) {
         return true;
     }
     else {
+        LOG("Texture not loaded: %ls", filePath);
         return false;
     }
     

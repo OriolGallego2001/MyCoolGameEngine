@@ -233,5 +233,12 @@ void ModuleRenderExercise::RenderMonkey()
 
 void ModuleRenderExercise::RenderModel()
 {
+    float4x4 viewproj = App->GetEditorCamera()->GetViewProjMatrix();
+    float4x4 model = float4x4::identity;
+
+    glUseProgram(program_id);
+    glUniformMatrix4fv(glGetUniformLocation(program_id, "model"), 1, GL_TRUE, &model[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(program_id, "viewproj"), 1, GL_TRUE, &viewproj[0][0]);//&App->GetEditorCamera()->ViewProjMatrix[0][0]);
+
     object->Render(program_id);
 }

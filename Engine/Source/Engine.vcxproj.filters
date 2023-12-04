@@ -261,6 +261,7 @@
     <ClInclude Include="tiny_gltf.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="packages\directxtex_desktop_2019.2023.10.31.1\include\DirectXTex.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc" />
@@ -279,5 +280,6 @@
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="MathGeoLib\include\Math\Matrix.inl" />
     <None Include="packages.config" />
+    <None Include="packages\directxtex_desktop_2019.2023.10.31.1\include\DirectXTex.inl" />
   </ItemGroup>
 </Project>

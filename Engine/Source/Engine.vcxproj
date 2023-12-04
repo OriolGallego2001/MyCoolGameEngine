@@ -290,6 +290,7 @@
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleRenderExercise.h" />
     <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="packages\directxtex_desktop_2019.2023.10.31.1\include\DirectXTex.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SDL\include\begin_code.h" />
     <ClInclude Include="SDL\include\close_code.h" />
@@ -394,6 +395,7 @@
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="MathGeoLib\include\Math\Matrix.inl" />
     <None Include="packages.config" />
+    <None Include="packages\directxtex_desktop_2019.2023.10.31.1\include\DirectXTex.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
