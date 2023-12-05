@@ -20,6 +20,7 @@ Mesh::~Mesh() {
 void Mesh::Load(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive)
 {
 	const auto& itPos = primitive.attributes.find("POSITION");
+	//TODO: Read UVs into vbo and use the space allocation properly for rendering.
 	if (itPos != primitive.attributes.end())
 	{
 		const tinygltf::Accessor& posAcc = model.accessors[itPos->second];

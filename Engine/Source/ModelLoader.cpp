@@ -60,7 +60,7 @@ void ModelLoader::loadMaterials(const tinygltf::Model& srcModel)
             const tinygltf::Texture& texture = srcModel.textures[srcMaterial.pbrMetallicRoughness.baseColorTexture.index];
             const tinygltf::Image& image = srcModel.images[texture.source];
             std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-            std::wstring wideString = converter.from_bytes(image.uri);
+            std::wstring wideString = converter.from_bytes("Data/" + image.uri);
             const wchar_t* imageuri = wideString.c_str();
             textureId = (mytex->LoadTexture(imageuri));
         }
