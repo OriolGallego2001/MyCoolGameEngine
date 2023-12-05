@@ -29,7 +29,7 @@ bool ModuleRenderExercise::Init()
     program_id = CreateProgram(vertex_id, fragment_id);
     object = new ModelLoader();
 
-    object->loadModel("Data/BakerHouse/BakerHouse.gltf");
+    object->loadModel("Data/BakerHouse.gltf");
     
 
     return true;

@@ -6,4 +6,5 @@ layout(binding=5) uniform sampler2D mytexture;
 void main()
 {
  color = texture2D(mytexture, uv0);
+
 }

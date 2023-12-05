@@ -40,7 +40,6 @@ void ModelLoader::loadModel(const char* path)
             mesh->CreateVAO();
             meshes.push_back(mesh);
             
-            
         }
     }
 
@@ -61,7 +60,7 @@ void ModelLoader::loadMaterials(const tinygltf::Model& srcModel)
             const tinygltf::Texture& texture = srcModel.textures[srcMaterial.pbrMetallicRoughness.baseColorTexture.index];
             const tinygltf::Image& image = srcModel.images[texture.source];
             std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-            std::wstring wideString = converter.from_bytes("Data/BakerHouse/" + image.uri);
+            std::wstring wideString = converter.from_bytes(image.uri);
             const wchar_t* imageuri = wideString.c_str();
             textureId = (mytex->LoadTexture(imageuri));
         }
@@ -73,7 +72,7 @@ void ModelLoader::loadMaterials(const tinygltf::Model& srcModel)
 void ModelLoader::Render(unsigned int program_id)
 {
     for (const auto& mesh : meshes) {
-        mesh->Render(program_id);
+        //mesh->Render(program_id);
         mesh->Draw(program_id, textures);
     }
 
