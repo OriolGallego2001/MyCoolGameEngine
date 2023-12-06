@@ -17,8 +17,8 @@ public:
 	void CreateVAO();
 	void Draw(unsigned int program_id, const std::vector<unsigned>& textures);
 private:
-	unsigned int vbo = 0, ebo = 0, vao = 0;
-	int vertexCount = 0, atribCount = 0;
+	unsigned int vbo = 0, ebo = 0, vao = 0, uv_vbo = 0;
+	int vertexCount = 0, atribCount = 0, uvCount;
 	int materialIndex = -1;
 };
 
