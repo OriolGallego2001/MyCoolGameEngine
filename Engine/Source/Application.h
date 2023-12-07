@@ -12,6 +12,7 @@ class ModuleRenderExercise;
 class ModuleImGUI;
 class ModuleRenderExercise;
 class ModuleEditorCamera;
+class ModelLoader;
 
 class Application
 {
@@ -30,6 +31,8 @@ public:
     ModuleImGUI* GetImGUI() { return imgui; }
     ModuleEditorCamera* GetEditorCamera() { return camera; };
     ModuleRenderExercise* GetRenderExercise() { return r_ex; }
+    ModelLoader* GetModelLoader() { return model_loader; }
+    
 
 private:
 
@@ -39,6 +42,7 @@ private:
     ModuleImGUI* imgui = nullptr;
     ModuleRenderExercise* r_ex = nullptr;
     ModuleEditorCamera* camera = nullptr;
+    ModelLoader* model_loader = nullptr;
 
 
     std::list<Module*> modules;

@@ -16,6 +16,8 @@ public:
 	void LoadEBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive);
 	void CreateVAO();
 	void Draw(unsigned int program_id, const std::vector<unsigned>& textures);
+
+	void CleanUp();
 private:
 	unsigned int vbo = 0, ebo = 0, vao = 0, uv_vbo = 0;
 	int vertexCount = 0, atribCount = 0, uvCount;

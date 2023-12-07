@@ -27,10 +27,6 @@ bool ModuleRenderExercise::Init()
     vertex_id = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("Data/Shaders/basic.vs"));
     fragment_id = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("Data/Shaders/flat.fs"));
     program_id = CreateProgram(vertex_id, fragment_id);
-    object = new ModelLoader();
-
-    object->loadModel("Data/BakerHouse.gltf");
-    
 
     return true;
 }
@@ -241,5 +237,5 @@ void ModuleRenderExercise::RenderModel()
     glUniformMatrix4fv(glGetUniformLocation(program_id, "model"), 1, GL_TRUE, &model[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(program_id, "viewproj"), 1, GL_TRUE, &viewproj[0][0]);//&App->GetEditorCamera()->ViewProjMatrix[0][0]);
 
-    object->Render(program_id);
+    App->GetModelLoader()->Render(program_id);
 }

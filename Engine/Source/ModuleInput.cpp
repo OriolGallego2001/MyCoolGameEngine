@@ -5,7 +5,8 @@
 #include "SDL/include/SDL.h"
 #include "imgui_impl_sdl2.h"
 #include "ModuleWindow.h"
-
+#include "ModelLoader.h"
+#include "ModuleEditorCamera.h"
 
 ModuleInput::ModuleInput()
 {}
@@ -34,6 +35,7 @@ bool ModuleInput::Init()
 update_status ModuleInput::Update()
 {
     SDL_Event sdlEvent;
+    char* dropped_filedir;
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
@@ -47,6 +49,22 @@ update_status ModuleInput::Update()
             case SDL_WINDOWEVENT:
                 if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
                     App->GetOpenGL()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
+                break;
+            case SDL_DROPFILE:
+                dropped_filedir = sdlEvent.drop.file;
+                //TODO: Remove current Mesh object and load new file (check if file is .gltf or image in case loading texture.
+                LOG(dropped_filedir);
+                //App->GetModelLoader()->loadModel(dropped_filedir);
+                SDL_free(dropped_filedir);
+
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (sdlEvent.button.button == SDL_BUTTON_RIGHT)
+                    App->GetEditorCamera()->setCameraType(CameraType::movable);
+                break;
+            case SDL_MOUSEBUTTONUP:
+                if (sdlEvent.button.button == SDL_BUTTON_RIGHT)
+                    App->GetEditorCamera()->setCameraType(CameraType::fixed);
                 break;
             
         }

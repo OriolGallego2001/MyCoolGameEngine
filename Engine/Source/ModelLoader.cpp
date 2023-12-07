@@ -1,5 +1,7 @@
 #include "ModelLoader.h"
 
+#include "Module.h"
+
 #include "Application.h"
 #include "Mesh.h"
 #include "TextureLoader.h"
@@ -14,7 +16,18 @@ ModelLoader::ModelLoader()  {
 }
 
 ModelLoader::~ModelLoader() {
+    
+}
 
+bool ModelLoader::Init()
+{
+    loadModel("Data/BakerHouse.gltf");
+    return true;
+}
+
+bool ModelLoader::CleanUp()
+{
+    return true;
 }
 
 void ModelLoader::loadModel(const char* path)

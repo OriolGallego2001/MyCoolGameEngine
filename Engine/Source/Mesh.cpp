@@ -67,6 +67,7 @@ void Mesh::Load(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const 
 		}
 		glUnmapBuffer(GL_ARRAY_BUFFER);
 
+
 		materialIndex = primitive.material;
 		vertexCount = posAcc.count;
 		uvCount = textAcc.count;

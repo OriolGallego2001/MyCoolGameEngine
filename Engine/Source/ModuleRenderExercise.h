@@ -2,7 +2,6 @@
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
-class ModelLoader;
 
 class ModuleRenderExercise : public Module
 {
@@ -28,7 +27,6 @@ private:
 	unsigned fragment_id;
 	unsigned vertex_id;
 	unsigned program_id;
-	ModelLoader* object;
 
 	
 

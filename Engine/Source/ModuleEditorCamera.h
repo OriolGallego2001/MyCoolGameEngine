@@ -22,6 +22,8 @@ public:
 	void move(const float3& delta);
 	void rotate(float angle, const float3& axis);
 
+	void setCameraType(CameraType type) { cameraType = type; }
+
 	const float4x4& GetViewProjMatrix() const { return frustum.ViewProjMatrix(); }
 	const float4x4& GetInvViewProjMatrix() const { float4x4 vpMat = frustum.ViewProjMatrix(); vpMat.Inverse(); return vpMat; }
 	const float3& GetCameraPos() const { return frustum.pos; }

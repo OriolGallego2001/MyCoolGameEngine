@@ -35,7 +35,7 @@ bool ModuleWindow::Init()
 		}
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
-
+		SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 		if(window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -67,6 +67,7 @@ bool ModuleWindow::CleanUp()
 	SDL_Quit();
 	return true;
 }
+
 
 void ModuleWindow::CenterHideMouse()
 {
