@@ -133,7 +133,6 @@ void ModuleEditorCamera::ProcessInput()
             rotate(mouse_delta.y * 0.01, frustum.WorldRight());
         }
 
-        App->GetWindow()->CenterHideMouse();
 
     }
     else if(cameraType == fixed) {
@@ -160,11 +159,30 @@ void ModuleEditorCamera::ProcessInput()
         }
 
 
-
-
+    }
+    else if (cameraType == CameraType::orbit) {
+        if (mouse_delta.x != 0) {
+            move(mouse_delta.x * 0.01 * frustum.up);
+            float3 oldRight = frustum.WorldRight().Normalized();
+            frustum.front = (float3::zero - frustum.pos).Normalized();
+            frustum.up = Cross(oldRight, frustum.front).Normalized();
+        }
+        if (mouse_delta.y != 0) {
+            move(mouse_delta.y * 0.01 * frustum.WorldRight());
+            float3 oldRight = frustum.WorldRight().Normalized();
+            frustum.front = (float3::zero - frustum.pos).Normalized();
+            frustum.up = Cross(oldRight, frustum.front).Normalized();
+        }
     }
     
-
+    if (keyboard[SDL_SCANCODE_F])
+    {
+        //Make this a lookat function Change float3::zero for a float3 input vector
+        float3 oldRight = frustum.WorldRight().Normalized();
+        frustum.front = (float3::zero - frustum.pos).Normalized();
+        frustum.up = Cross(oldRight, frustum.front).Normalized();
+        
+    }
 
 
 

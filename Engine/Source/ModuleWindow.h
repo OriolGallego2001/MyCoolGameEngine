@@ -21,9 +21,6 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	void CenterHideMouse();
-
-	void FreeShowMouse();
 	float getAspectRatio();
 
 public:

@@ -69,21 +69,7 @@ bool ModuleWindow::CleanUp()
 }
 
 
-void ModuleWindow::CenterHideMouse()
-{
-	screen_surface = SDL_GetWindowSurface(window);
 
-	// Hide the mouse cursor
-	SDL_ShowCursor(SDL_DISABLE);
-	// Center the mouse
-	//SDL_WarpMouseInWindow(window, screen_surface->w / 2, screen_surface->h / 2);
-
-}
-
-void ModuleWindow::FreeShowMouse()
-{
-	SDL_ShowCursor(SDL_ENABLE);
-}
 
 float ModuleWindow::getAspectRatio()
 {

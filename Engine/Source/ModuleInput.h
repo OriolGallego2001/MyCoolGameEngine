@@ -17,5 +17,5 @@ public:
 
 private:
 	const Uint8 *keyboard = NULL;
-	bool isRightMouseButtonDown = false;
+	bool isRightMouseButtonDown = false, canOrbit = false;
 };

@@ -34,7 +34,9 @@ void ModelLoader::loadModel(const char* path)
 {
     
     assert(path != nullptr);
-    
+    //TODO: Destroy the existent meshes? At least the ones that will not be reassigned for example house has 2 meshes and box has 1, remove the 2nd from the House when loading the box.
+    meshes.clear();
+    textures.clear();
     tinygltf::TinyGLTF gltfContext;
     tinygltf::Model model;
     std::string error, warning; 
@@ -77,7 +79,7 @@ void ModelLoader::loadMaterials(const tinygltf::Model& srcModel)
             const wchar_t* imageuri = wideString.c_str();
             textureId = (mytex->LoadTexture(imageuri));
         }
-        textures.push_back(textureId);
+        textures.push_back(textureId); //Is this correct? We have a list of texture indices how are we accessing this array properly? Further tests.
     }
 
 }

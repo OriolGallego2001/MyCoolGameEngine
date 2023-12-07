@@ -7,6 +7,22 @@
 #include "ModuleWindow.h"
 #include "ModelLoader.h"
 #include "ModuleEditorCamera.h"
+#include <iostream>
+#include <string>
+
+
+bool endsWith(const char* str, const char* suffix) {
+    if (!str || !suffix)
+        return false; //Change it for assert
+    size_t strLength = std::strlen(str);
+    size_t suffixLength = std::strlen(suffix);
+
+    if (strLength < suffixLength)
+        return false;
+
+    return std::strcmp(str + std::strlen(str) - 5, suffix) == 0;
+
+}
 
 ModuleInput::ModuleInput()
 {}
@@ -54,16 +70,29 @@ update_status ModuleInput::Update()
                 dropped_filedir = sdlEvent.drop.file;
                 //TODO: Remove current Mesh object and load new file (check if file is .gltf or image in case loading texture.
                 LOG(dropped_filedir);
-                //App->GetModelLoader()->loadModel(dropped_filedir);
+                if (endsWith(dropped_filedir, ".gltf")) {
+                    App->GetModelLoader()->loadModel(dropped_filedir);
+                }
+                else if (endsWith(dropped_filedir, ".png")) {
+                    LOG("Check what is supposed to be the texture list in model loader, should I get the id of the textures and load the texture there?");
+                }
+                else {
+                    LOG("File not valid");
+                }
                 SDL_free(dropped_filedir);
-
+                
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 if (sdlEvent.button.button == SDL_BUTTON_RIGHT)
                     App->GetEditorCamera()->setCameraType(CameraType::movable);
+                else if(canOrbit && sdlEvent.button.button == SDL_BUTTON_LEFT)
+                    App->GetEditorCamera()->setCameraType(CameraType::orbit);
                 break;
+
             case SDL_MOUSEBUTTONUP:
                 if (sdlEvent.button.button == SDL_BUTTON_RIGHT)
+                    App->GetEditorCamera()->setCameraType(CameraType::fixed);
+                if (sdlEvent.button.button == SDL_BUTTON_LEFT)
                     App->GetEditorCamera()->setCameraType(CameraType::fixed);
                 break;
             
@@ -75,6 +104,10 @@ update_status ModuleInput::Update()
     if (keyboard[SDL_SCANCODE_ESCAPE])
     {
         return UPDATE_STOP;
+    }
+    if (keyboard[SDL_SCANCODE_LALT])
+    {
+        canOrbit = true;
     }
 
     return UPDATE_CONTINUE;

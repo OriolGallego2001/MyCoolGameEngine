@@ -5,7 +5,8 @@
 enum CameraType
 {
 	fixed,
-	movable
+	movable,
+	orbit
 };
 
 class ModuleEditorCamera :
