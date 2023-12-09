@@ -161,18 +161,18 @@ void ModuleEditorCamera::ProcessInput()
 
     }
     else if (cameraType == CameraType::orbit) {
+        //TODO: Change the position of the camera so that the distance remains constant.
+        float distanceCameraObject = (float3::zero - frustum.pos).Length();
         if (mouse_delta.x != 0) {
-            move(mouse_delta.x * 0.01 * frustum.up);
-            float3 oldRight = frustum.WorldRight().Normalized();
-            frustum.front = (float3::zero - frustum.pos).Normalized();
-            frustum.up = Cross(oldRight, frustum.front).Normalized();
+            move(- mouse_delta.x * speed * distanceCameraObject * frustum.WorldRight());
         }
         if (mouse_delta.y != 0) {
-            move(mouse_delta.y * 0.01 * frustum.WorldRight());
-            float3 oldRight = frustum.WorldRight().Normalized();
-            frustum.front = (float3::zero - frustum.pos).Normalized();
-            frustum.up = Cross(oldRight, frustum.front).Normalized();
+            move(mouse_delta.y * speed * distanceCameraObject * frustum.up);
         }
+        float3 oldRight = frustum.WorldRight().Normalized();
+        frustum.front = (float3::zero - frustum.pos).Normalized();
+        frustum.up = Cross(oldRight, frustum.front).Normalized();
+
     }
     
     if (keyboard[SDL_SCANCODE_F])

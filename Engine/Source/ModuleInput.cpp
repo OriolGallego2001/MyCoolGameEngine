@@ -109,6 +109,9 @@ update_status ModuleInput::Update()
     {
         canOrbit = true;
     }
+    else {
+        canOrbit = false;
+    }
 
     return UPDATE_CONTINUE;
 }

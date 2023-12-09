@@ -10,6 +10,12 @@
 #include <cstring>
 #include "ModuleEditorCamera.h"
 
+#ifdef _WIN32
+#include <Windows.h>
+#elif defined(__linux__)
+#include <cstdlib>
+#endif
+
 
 
 ModuleImGUI::ModuleImGUI()
@@ -68,9 +74,13 @@ update_status ModuleImGUI::Update()
 update_status ModuleImGUI::PostUpdate()
 {
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	//ImGui::ShowDemoWindow();
-	//renderAboutWindow();
+	if (renderAbout)
+	{
+		renderAboutWindow();
+	}
 	renderLogWindow();
+	renderProperties();
+	renderProject();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -80,6 +90,10 @@ update_status ModuleImGUI::PostUpdate()
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 		SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
+	}
+
+	if (forceClose) {
+		return UPDATE_STOP;
 	}
 
 	return UPDATE_CONTINUE;
@@ -128,6 +142,25 @@ void ModuleImGUI::renderLogWindow() const
 {
 	ImGui::Begin("Console log:");
 
+	
+	// Display information
+	
+	for (const char* message : logMessages) {
+		ImGui::TextUnformatted(message);
+	}
+		
+
+
+	// End the ImGui window
+	ImGui::End();
+}
+
+void ModuleImGUI::renderProperties() const
+{
+
+	ImGui::Begin("Properties:");
+
+
 	float3 camerapos = App->GetEditorCamera()->GetCameraPos();
 	ImGui::InputFloat3("CameraPos", &camerapos[0]);
 
@@ -139,18 +172,57 @@ void ModuleImGUI::renderLogWindow() const
 	ImGui::InputFloat4("CameraVP3", &viewproj[2][0]);
 	ImGui::InputFloat4("CameraVP4", &viewproj[3][0]);
 
-	// Display information
-	/*
-	for (const char* message : logMessages) {
-		ImGui::TextUnformatted(message);
-	}
-	*/
-
-	
-
-
-	// End the ImGui window
 	ImGui::End();
+
+
+}
+
+void ModuleImGUI::renderProject()
+{
+	ImGui::Begin("MySuperCoolEngine");
+
+	if (ImGui::Button("Close Editor [Esc]"))
+	{
+		forceClose = true;
+	}
+
+	if (ImGui::Button("Open Repository"))
+	{
+		openRepositoryLink();
+	}
+
+	if (ImGui::Button("About window"))
+	{
+		renderAbout = !renderAbout;
+	}
+
+	ImGui::End();
+
+
 }
 
 
+void ModuleImGUI::openRepositoryLink()
+{
+#ifdef _WIN32
+	// Convert wide string to narrow string
+	const wchar_t* wideUrl = L"https://github.com/OriolGallego2001/MyCoolGameEngine";
+	size_t convertedChars = 0;
+	size_t size = wcslen(wideUrl) + 1;
+	char narrowUrl[46]; // Size based on the length of the provided URL
+
+	wcstombs_s(&convertedChars, narrowUrl, size, wideUrl, _TRUNCATE);
+
+	// Use ShellExecuteA with the narrow string
+	HINSTANCE result = ShellExecuteA(nullptr, nullptr, narrowUrl, nullptr, nullptr, SW_SHOWNORMAL);
+
+	// Check the result if needed
+	if ((intptr_t)result <= 32)
+	{
+		printf("Failed to open the link\n");
+	}
+#elif defined(__linux__)
+	// Use xdg-open to open the default web browser on Linux
+	system("xdg-open https://github.com/OriolGallego2001/MyCoolGameEngine");
+#endif
+}

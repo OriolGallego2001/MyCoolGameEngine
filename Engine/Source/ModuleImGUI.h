@@ -15,7 +15,11 @@ public:
 	bool CleanUp();
 	void renderAboutWindow() const;
 	void renderLogWindow() const;
-
+	void renderProperties() const;
+	void renderProject();
+	void openRepositoryLink();
+private:
+	bool forceClose = false, renderAbout = false;
 
 };
 
