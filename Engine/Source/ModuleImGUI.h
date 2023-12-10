@@ -21,5 +21,6 @@ public:
 private:
 	bool forceClose = false, renderAbout = false;
 
+
 };
 

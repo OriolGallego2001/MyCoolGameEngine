@@ -74,6 +74,8 @@ update_status ModuleImGUI::Update()
 update_status ModuleImGUI::PostUpdate()
 {
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	
+	/*
 	if (renderAbout)
 	{
 		renderAboutWindow();
@@ -81,7 +83,11 @@ update_status ModuleImGUI::PostUpdate()
 	renderLogWindow();
 	renderProperties();
 	renderProject();
+	*/
+	renderAboutWindow();
+
 	ImGui::Render();
+
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
@@ -133,6 +139,24 @@ void ModuleImGUI::renderAboutWindow() const
 
 	// Display the license
 	ImGui::Text("License: Your License");
+
+	ImGui::Text("Performance:");
+
+	float2 data = float2(80.0f, 60.0f);
+	
+	static float fpsValues[100] = { 0 }; // Circular buffer for the last 100 frames
+	static int fpsIndex = 0;
+	fpsValues[fpsIndex] = data.x;
+	fpsIndex = (fpsIndex + 1) % 100;
+	ImGui::PlotLines("FPS", fpsValues, 100, fpsIndex, "FPS", 0.0f, 100.0f, ImVec2(0, 100));
+
+	// Plot Memory Usage (replace this with actual data retrieval)
+	static float memoryValues[100] = { 0 }; // Circular buffer for the last 100 frames
+	static int memoryIndex = 0;
+	memoryValues[memoryIndex] = data.y;
+	memoryIndex = (memoryIndex + 1) % 100;
+	ImGui::PlotLines("Memory Usage", memoryValues, 100, memoryIndex, "MB", 0.0f, 100.0f, ImVec2(0, 100));
+
 
 	// End the ImGui window
 	ImGui::End();
