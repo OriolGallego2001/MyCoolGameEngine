@@ -35,7 +35,7 @@ public:
 private:
 	Frustum frustum;
 	float2 mousePos;
-	CameraType cameraType = movable;
+	CameraType cameraType = fixed;
 
 
 
