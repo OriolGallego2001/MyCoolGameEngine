@@ -25,6 +25,7 @@ void Mesh::Load(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const 
 	//TODO: Read UVs into vbo and use the space allocation properly for rendering.
 	if (itPos != primitive.attributes.end() && itText != primitive.attributes.end())
 	{
+		LOG("Loading mesh %s ...", mesh.name);
 		const tinygltf::Accessor& posAcc = model.accessors[itPos->second];
 		SDL_assert(posAcc.type == TINYGLTF_TYPE_VEC3);
 		SDL_assert(posAcc.componentType == GL_FLOAT);
@@ -71,9 +72,14 @@ void Mesh::Load(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const 
 		materialIndex = primitive.material;
 		vertexCount = posAcc.count;
 		uvCount = textAcc.count;
+		name = mesh.name.c_str();
+		LOG("Mesh %s loaded!", mesh.name);
+
 	}
 	else if (itPos != primitive.attributes.end())
 	{
+		LOG("Loading mesh %s ...", mesh.name);
+
 		const tinygltf::Accessor& posAcc = model.accessors[itPos->second];
 		SDL_assert(posAcc.type == TINYGLTF_TYPE_VEC3);
 		SDL_assert(posAcc.componentType == GL_FLOAT);
@@ -96,6 +102,10 @@ void Mesh::Load(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const 
 		glUnmapBuffer(GL_ARRAY_BUFFER);
 		materialIndex = primitive.material;
 		vertexCount = posAcc.count;
+		name = mesh.name.c_str();
+		texName = model.images[materialIndex].name.c_str();
+		LOG("Mesh %s loaded!", mesh.name);
+
 	}
 
 }

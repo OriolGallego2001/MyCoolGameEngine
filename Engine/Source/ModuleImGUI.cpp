@@ -9,6 +9,8 @@
 #include "../glew-2.1.0/include/GL/glew.h"
 #include <cstring>
 #include "ModuleEditorCamera.h"
+#include "ModelLoader.h"
+#include "Mesh.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -89,9 +91,9 @@ update_status ModuleImGUI::PostUpdate()
 		renderAboutWindow();
 	}
 	renderProperties();
+	/*
 	renderProject();
 	renderLogWindow();
-	/*
 	renderAboutWindow();
 	*/
 
@@ -202,6 +204,21 @@ void ModuleImGUI::renderProperties() const
 	ImGui::InputFloat4("CameraVP2", &viewproj[1][0]);
 	ImGui::InputFloat4("CameraVP3", &viewproj[2][0]);
 	ImGui::InputFloat4("CameraVP4", &viewproj[3][0]);
+
+	if (ImGui::TreeNodeEx("Root", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		for (const auto& mesh : App->GetModelLoader()->getMeshes()) {
+			if (ImGui::TreeNodeEx(mesh->getName(), ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				ImGui::Text("Texture: %s", mesh->getTexName());
+				ImGui::Text("Vertex count: %i", mesh->getVertexCount());
+				ImGui::TreePop();
+			}
+		}
+
+		ImGui::TreePop(); // Pop Root
+	}
+
 
 	ImGui::End();
 

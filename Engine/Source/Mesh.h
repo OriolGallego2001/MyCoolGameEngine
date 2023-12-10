@@ -16,11 +16,15 @@ public:
 	void LoadEBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive);
 	void CreateVAO();
 	void Draw(unsigned int program_id, const std::vector<unsigned>& textures);
-
+	const int getVertexCount()const { return vertexCount; }
+	const char* getName() const { return name; }
+	const char* getTexName() const { return texName; }
 	void CleanUp();
 private:
 	unsigned int vbo = 0, ebo = 0, vao = 0, uv_vbo = 0;
 	int vertexCount = 0, atribCount = 0, uvCount;
 	int materialIndex = -1;
+	const char* name;
+	const char* texName;
 };
 

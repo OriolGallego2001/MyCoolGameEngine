@@ -59,7 +59,6 @@ void ModelLoader::loadModel(const char* path)
             
         }
     }
-
     loadMaterials(model);
     
     

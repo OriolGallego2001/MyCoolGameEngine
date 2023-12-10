@@ -20,6 +20,8 @@ public:
     void loadMaterials(const tinygltf::Model& srcModel);
     void Render(unsigned int program_id);
 
+    const std::vector<Mesh*> getMeshes() const { return meshes; }
+
     // Add more functions as needed, e.g., for drawing the model
 
 private:
