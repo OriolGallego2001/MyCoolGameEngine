@@ -51,6 +51,9 @@ bool ModuleImGUI::Init()
 	ImGui_ImplSDL2_InitForOpenGL(App->GetWindow()->window, App->GetOpenGL()->getContext());
 	ImGui_ImplOpenGL3_Init("#version 130");
 
+	
+
+
 	return true;
 }
 
@@ -75,20 +78,24 @@ update_status ModuleImGUI::PostUpdate()
 {
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	
-	/*
-	if (renderAbout)
-	{
-		renderAboutWindow();
-	}
-	renderLogWindow();
-	renderProperties();
-	renderProject();
-	*/
-	renderAboutWindow();
+
+
 
 	ImGui::Render();
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	if (renderAbout)
+	{
+		renderAboutWindow();
+	}
+	renderProperties();
+	renderProject();
+	renderLogWindow();
+	/*
+	renderAboutWindow();
+	*/
+
+
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();

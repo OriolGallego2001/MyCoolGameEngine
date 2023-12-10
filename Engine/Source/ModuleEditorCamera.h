@@ -29,6 +29,8 @@ public:
 	const float4x4& GetInvViewProjMatrix() const { float4x4 vpMat = frustum.ViewProjMatrix(); vpMat.Inverse(); return vpMat; }
 	const float3& GetCameraPos() const { return frustum.pos; }
 	void ProcessInput();
+	void UpdateProjectionMatrix(int screenWidth, int screenHeight);
+	void DisplaceFromBoundingBox(float3 mins, float3 maxs);
 
 private:
 	Frustum frustum;

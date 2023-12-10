@@ -63,8 +63,13 @@ update_status ModuleInput::Update()
 
             
             case SDL_WINDOWEVENT:
-                if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+                if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
                     App->GetOpenGL()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
+                    int newWidth = sdlEvent.window.data1;
+                    int newHeight = sdlEvent.window.data2;
+                    App->GetEditorCamera()->UpdateProjectionMatrix(newWidth, newHeight);
+                                    
+                }
                 break;
             case SDL_DROPFILE:
                 dropped_filedir = sdlEvent.drop.file;
@@ -95,6 +100,7 @@ update_status ModuleInput::Update()
                 if (sdlEvent.button.button == SDL_BUTTON_LEFT)
                     App->GetEditorCamera()->setCameraType(CameraType::fixed);
                 break;
+                
             
         }
     }

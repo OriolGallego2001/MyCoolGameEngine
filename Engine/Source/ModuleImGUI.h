@@ -19,7 +19,7 @@ public:
 	void renderProject();
 	void openRepositoryLink();
 private:
-	bool forceClose = false, renderAbout = false;
+	bool forceClose = false, renderAbout = false, first_time = true;
 
 
 };
