@@ -12,6 +12,7 @@ public:
 	bool LoadTexture(const wchar_t* filePath);
 	void BindTexture();
 	void UnbindTexture();
+	const GLuint getTextID() const { return textureID; }
 
 private:
 	GLuint textureID;

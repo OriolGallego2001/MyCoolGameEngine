@@ -100,6 +100,16 @@ update_status ModuleInput::Update()
                 if (sdlEvent.button.button == SDL_BUTTON_LEFT)
                     App->GetEditorCamera()->setCameraType(CameraType::fixed);
                 break;
+            case SDL_MOUSEWHEEL:
+                if (sdlEvent.wheel.y > 0)
+                {
+                    App->GetEditorCamera()->moveForward(false);
+                }
+                else if (sdlEvent.wheel.y < 0)
+                {
+                    App->GetEditorCamera()->moveForward(true);
+                }
+                break;
                 
             
         }

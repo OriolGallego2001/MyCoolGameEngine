@@ -60,10 +60,17 @@ bool ModuleEditorCamera::CleanUp()
 
 void ModuleEditorCamera::move(const float3& delta)
 {
-    frustum.pos = frustum.pos - delta;
-    frustum.pos = frustum.pos - delta;
+    frustum.pos = frustum.pos - delta;    
     
-    
+}
+
+void ModuleEditorCamera::moveForward(bool backwards)
+{
+    if (cameraType == fixed) {
+
+        int sign = backwards ? 1 : -1;
+        move(sign * frustum.front.Normalized() * 0.1f);
+    }
 }
 
 void ModuleEditorCamera::rotate(float angle, const float3& axis)
@@ -172,6 +179,10 @@ void ModuleEditorCamera::ProcessInput()
         float3 oldRight = frustum.WorldRight().Normalized();
         frustum.front = (float3::zero - frustum.pos).Normalized();
         frustum.up = Cross(oldRight, frustum.front).Normalized();
+
+        float newDistance = (float3::zero - frustum.pos).Length();
+        move(-frustum.front.Normalized() * (newDistance - distanceCameraObject)); //Make sure you don't orbit away
+
 
     }
     

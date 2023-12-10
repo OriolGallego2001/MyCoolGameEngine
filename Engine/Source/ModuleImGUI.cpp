@@ -52,7 +52,7 @@ bool ModuleImGUI::Init()
 	// Setup Platform/Renderer backends
 	ImGui_ImplSDL2_InitForOpenGL(App->GetWindow()->window, App->GetOpenGL()->getContext());
 	ImGui_ImplOpenGL3_Init("#version 130");
-
+	
 	
 
 
@@ -78,7 +78,8 @@ update_status ModuleImGUI::Update()
 
 update_status ModuleImGUI::PostUpdate()
 {
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGuiIO& io = ImGui::GetIO(); 
+	(void)io;
 	
 
 
@@ -86,18 +87,20 @@ update_status ModuleImGUI::PostUpdate()
 	ImGui::Render();
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	
 	if (renderAbout)
 	{
 		renderAboutWindow();
 	}
 	renderProperties();
-	/*
 	renderProject();
 	renderLogWindow();
-	renderAboutWindow();
-	*/
+	ImGui::ShowDemoWindow();
 
+	
+	
 
+	
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
@@ -110,6 +113,7 @@ update_status ModuleImGUI::PostUpdate()
 	if (forceClose) {
 		return UPDATE_STOP;
 	}
+	
 
 	return UPDATE_CONTINUE;
 }

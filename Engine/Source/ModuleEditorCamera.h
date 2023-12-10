@@ -21,6 +21,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void move(const float3& delta);
+	void moveForward(bool backwards);
 	void rotate(float angle, const float3& axis);
 
 	void setCameraType(CameraType type) { cameraType = type; }

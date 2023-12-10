@@ -78,9 +78,12 @@ void ModelLoader::loadMaterials(const tinygltf::Model& srcModel)
             std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
             std::wstring wideString = converter.from_bytes("Data/" + image.uri);
             const wchar_t* imageuri = wideString.c_str();
-            textureId = (mytex->LoadTexture(imageuri));
+            if (mytex->LoadTexture(imageuri)) {
+
+                textureId = mytex->getTextID();
+            }
         }
-        textures.push_back(textureId); //Is this correct? We have a list of texture indices how are we accessing this array properly? Further tests.
+        textures.push_back(textureId); 
     }
 
 }
